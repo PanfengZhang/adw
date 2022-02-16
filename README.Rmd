@@ -1,0 +1,93 @@
+---
+output:
+  pdf_document: default
+  email: zhangpanfeng@cug.edu.cn
+  title: "Angular distance weighting (adw)"
+  date: "2022/2/16"
+  md_document: default
+  author: "Panfeng Zhang"
+---
+# Angular distance weighting (adw)
+Gridding the irregularly-spaced data onto a regular latitude-longitude grid by
+weighting each station according to its distance and angle from the center of a
+search radius
+
+# reference
+Caesar, J., L. Alexander, and R. Vose, 2006: Large-scale changes in observed daily maximum and minimum temperatures: Creation and analysis of a new gridded data set. 
+J. Geophys. Res., 111, D05101, https://doi.org/10.1029/2005JD006280.
+
+## Installation
+The **development** version can be installed from GitHub using:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("PanfengZhang/adw")
+```
+## Usage
+``` {r, echo=TRUE}
+library(adw)
+library(ggplot2)
+library(sf)
+ds <- read.csv("C:/documents/test.csv")
+ds$value <- runif(nrow(ds), min = -10, max = 10)
+head(ds)
+
+dg <- adw(ds, xmin = 110, xmax = 117, ymin = 31, ymax = 37, 
+    gridSize = 0.5, cdd = 100000, m = 4)
+# dg is the grid (mesh) dataframe
+head(dg)
+
+# plot
+urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"
+cmap <- read_sf(urlmap) %>% st_cast('MULTILINESTRING')
+ggplot() +
+  geom_tile(data = dg, aes(x = lon, y = lat, fill = value)) +
+  geom_sf(data = cmap) +
+  coord_sf(expand = FALSE) +
+  guides(fill = guide_coloursteps(title.position = "right")) +
+  ggtitle("adw interpolation") +
+  scale_fill_fermenter(palette = "RdYlBu", na.value = "white", 
+                       breaks = seq(-8, 8, 2),
+                       limits = c(-11, 11),
+                       name = expression("\u00B0C")) +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        legend.key.width = unit(1.5, "cm"),
+        legend.key.height = unit(0.3, "cm"),
+        axis.title = element_blank(),
+        legend.title = element_text(face = "plain", size = 9))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

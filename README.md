@@ -30,19 +30,30 @@ The **development** version can be installed from GitHub using:
     ds$value <- runif(nrow(ds), min = -10, max = 10)
     head(ds)
 
-    ##       lon    lat     value
-    ## 1 113.061 32.928  3.022131
-    ## 2 114.310 33.653 -3.550435
-    ## 3 111.267 33.506 -4.995223
-    ## 4 111.196 34.112  8.308435
-    ## 5 114.337 33.435  7.099600
-    ## 6 115.850 34.236 -5.406495
-
-    urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"
-    cmap <- read_sf(urlmap) %>% st_cast('MULTILINESTRING')
+    ##       lon    lat       value
+    ## 1 113.061 32.928 -3.08832563
+    ## 2 114.310 33.653  2.99203032
+    ## 3 111.267 33.506  8.34545434
+    ## 4 111.196 34.112  2.21211022
+    ## 5 114.337 33.435 -0.32206607
+    ## 6 115.850 34.236 -0.05104718
 
     dg <- adw(ds, xmin = 110, xmax = 117, ymin = 31, ymax = 37, 
         gridSize = 0.5, cdd = 100000, m = 4)
+    # dg is the grid (mesh) dataframe
+    head(dg)
+
+    ##   lon  lat     value
+    ## 1 110 31.0        NA
+    ## 2 110 31.5        NA
+    ## 3 110 32.0        NA
+    ## 4 110 32.5        NA
+    ## 5 110 33.0        NA
+    ## 6 110 33.5 -1.014796
+
+    # plot
+    urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"
+    cmap <- read_sf(urlmap) %>% st_cast('MULTILINESTRING')
     ggplot() +
       geom_tile(data = dg, aes(x = lon, y = lat, fill = value)) +
       geom_sf(data = cmap) +
