@@ -1,18 +1,13 @@
-#' @title adw function, Angular distance weighting interpolation
-#'
-#' Gridding the irregularly-spaced data onto a regular latitude-longitude grid
-#' by weighting each station according to its distance and angle from the centre
-#' of a search radius
-#'
-#' @param dd is the dataframe
-#' @param xmin is the minimum of the longitude
-#' @param xmax is the minimum of the longitude
-#' @param ymin is the minimum of the latitude
-#' @param ymax is the maximum of the latitude
-#' @param gridSize is the grid resolution
-#' @param cdd is the correlation decay distance, unit: meter
+#' @title adw function, Angular distance weighting
+#' @param dd a input dataframe which contains column names of lon, lat, value
+#' @param xmin the minimum longitude of the rectangular mesh
+#' @param xmax the maximum longitude of the rectangular mesh
+#' @param ymin the minimum latitude of the rectangular mesh
+#' @param ymax the maximum latitude of the rectangular mesh
+#' @param gridSize the grid resolution
+#' @param cdd the correlation decay distance, unit: meter
 #' @param m is used to adjust the weighting function further
-#' @return a dataframe
+#' @return a regular latitude-longitude grid dataframe
 #' @export
 #' @importFrom sf st_as_sf st_buffer st_coordinates st_distance st_geometry
 #' @importFrom magrittr %>%
@@ -21,9 +16,6 @@
 
 adw <- function(dd, xmin = NULL, xmax = NULL, ymin = NULL, ymax = NULL,
                 gridSize = 1, cdd = 1000000, m = 4) {
-  # library(sf)
-  # library(geosphere)
-  # library(magrittr)
   requireNamespace("sf")
   requireNamespace("geosphere")
   requireNamespace("magrittr")

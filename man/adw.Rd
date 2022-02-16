@@ -2,11 +2,7 @@
 % Please edit documentation in R/adw.R
 \name{adw}
 \alias{adw}
-\title{adw function, Angular distance weighting interpolation
-
-Gridding the irregularly-spaced data onto a regular latitude-longitude grid
-by weighting each station according to its distance and angle from the centre
-of a search radius}
+\title{adw function, Angular distance weighting}
 \usage{
 adw(
   dd,
@@ -20,29 +16,25 @@ adw(
 )
 }
 \arguments{
-\item{dd}{is the dataframe}
+\item{dd}{a input dataframe which contains column names of lon, lat, value}
 
-\item{xmin}{is the minimum of the longitude}
+\item{xmin}{the minimum longitude of the rectangular mesh}
 
-\item{xmax}{is the minimum of the longitude}
+\item{xmax}{the maximum longitude of the rectangular mesh}
 
-\item{ymin}{is the minimum of the latitude}
+\item{ymin}{the minimum latitude of the rectangular mesh}
 
-\item{ymax}{is the maximum of the latitude}
+\item{ymax}{the maximum latitude of the rectangular mesh}
 
-\item{gridSize}{is the grid resolution}
+\item{gridSize}{the grid resolution}
 
-\item{cdd}{is the correlation decay distance, unit: meter}
+\item{cdd}{the correlation decay distance, unit: meter}
 
 \item{m}{is used to adjust the weighting function further}
 }
 \value{
-a dataframe
+a regular latitude-longitude grid dataframe
 }
 \description{
-adw function, Angular distance weighting interpolation
-
-Gridding the irregularly-spaced data onto a regular latitude-longitude grid
-by weighting each station according to its distance and angle from the centre
-of a search radius
+adw function, Angular distance weighting
 }
