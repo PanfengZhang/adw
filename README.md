@@ -13,7 +13,8 @@ of a new gridded data set. J. Geophys. Res., 111, D05101,
 
 ## Installation
 
-The **development** version can be installed from GitHub using:
+The **development** version can be installed from GitHub
+(<https://github.com/PanfengZhang/adw>) using:
 
     # install.packages("remotes")
     remotes::install_github("PanfengZhang/adw")
@@ -24,32 +25,31 @@ The **development** version can be installed from GitHub using:
     library(ggplot2)
     library(sf)
 
-    ## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+    ## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
 
-    ds <- read.csv("C:/documents/test.csv")
+    ds <- read.csv("C:/documents/test/adw_test.csv")
     ds$value <- runif(nrow(ds), min = -10, max = 10)
     head(ds)
 
-    ##       lon    lat       value
-    ## 1 113.061 32.928 -3.08832563
-    ## 2 114.310 33.653  2.99203032
-    ## 3 111.267 33.506  8.34545434
-    ## 4 111.196 34.112  2.21211022
-    ## 5 114.337 33.435 -0.32206607
-    ## 6 115.850 34.236 -0.05104718
+    ##       lon    lat      value
+    ## 1 113.061 32.928 -2.4436383
+    ## 2 114.310 33.653 -0.8338343
+    ## 3 111.267 33.506  8.4525327
+    ## 4 111.196 34.112  8.4404065
+    ## 5 114.337 33.435  1.5890665
+    ## 6 115.850 34.236 -5.6577436
 
-    dg <- adw(ds, xmin = 110, xmax = 117, ymin = 31, ymax = 37, 
-        gridSize = 0.5, cdd = 100000, m = 4)
+    dg <- adw(ds, gridSize = 0.5, cdd = 100000, m = 4)
     # dg is the grid (mesh) dataframe
     head(dg)
 
-    ##   lon  lat     value
-    ## 1 110 31.0        NA
-    ## 2 110 31.5        NA
-    ## 3 110 32.0        NA
-    ## 4 110 32.5        NA
-    ## 5 110 33.0        NA
-    ## 6 110 33.5 -1.014796
+    ##       lon    lat      value
+    ## 1 110.397 31.453         NA
+    ## 2 110.397 31.953         NA
+    ## 3 110.397 32.453         NA
+    ## 4 110.397 32.953  1.0175670
+    ## 5 110.397 33.453 -0.6547725
+    ## 6 110.397 33.953  2.7219923
 
     # plot
     urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"

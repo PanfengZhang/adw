@@ -1,10 +1,10 @@
 ---
 output:
-  pdf_document: default
+  md_document: default
   email: zhangpanfeng@cug.edu.cn
   title: "Angular distance weighting (adw)"
   date: "2022/2/16"
-  md_document: default
+  pdf_document: default
   author: "Panfeng Zhang"
 ---
 # Angular distance weighting (adw)
@@ -17,7 +17,7 @@ Caesar, J., L. Alexander, and R. Vose, 2006: Large-scale changes in observed dai
 J. Geophys. Res., 111, D05101, https://doi.org/10.1029/2005JD006280.
 
 ## Installation
-The **development** version can be installed from GitHub using:
+The **development** version can be installed from GitHub (https://github.com/PanfengZhang/adw) using:
 
 ``` r
 # install.packages("remotes")
@@ -28,12 +28,11 @@ remotes::install_github("PanfengZhang/adw")
 library(adw)
 library(ggplot2)
 library(sf)
-ds <- read.csv("C:/documents/test.csv")
+ds <- read.csv("C:/documents/test/adw_test.csv")
 ds$value <- runif(nrow(ds), min = -10, max = 10)
 head(ds)
 
-dg <- adw(ds, xmin = 110, xmax = 117, ymin = 31, ymax = 37, 
-    gridSize = 0.5, cdd = 100000, m = 4)
+dg <- adw(ds, gridSize = 0.5, cdd = 100000, m = 4)
 # dg is the grid (mesh) dataframe
 head(dg)
 

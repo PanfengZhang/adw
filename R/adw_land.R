@@ -1,4 +1,4 @@
-#' @title adw function, Angular distance weighting
+#' @title adw function for only land, Angular distance weighting
 #' @param dd a input dataframe which contains column names of lon, lat, value
 #' @param xmin the minimum longitude of the rectangular mesh
 #' @param xmax the maximum longitude of the rectangular mesh
@@ -8,18 +8,20 @@
 #' @param cdd the correlation decay distance, unit: meter
 #' @param m is used to adjust the weighting function further
 #' @return a regular latitude-longitude grid dataframe
-#' @importFrom sf st_as_sf st_buffer st_coordinates st_distance st_geometry
+#' @importFrom sf st_as_sf st_buffer st_coordinates st_distance st_geometry sf_use_s2
 #' @importFrom magrittr %>%
 #' @importFrom geosphere bearing
 #' @importFrom stats na.omit
 #' @importFrom rnaturalearth ne_countries
 #' @export
 
-adw <- function(dd, xmin = NULL, xmax = NULL, ymin = NULL, ymax = NULL,
+# mask ocean
+adw_land <- function(dd, xmin = NULL, xmax = NULL, ymin = NULL, ymax = NULL,
                 gridSize = 1, cdd = 1000000, m = 4) {
   requireNamespace("sf")
   requireNamespace("geosphere")
   requireNamespace("magrittr")
+  requireNamespace("rnaturalearth")
   if(is.null(xmin)) {
     xmin <- min(dd$lon)
     xmax <- max(dd$lon)
@@ -36,6 +38,11 @@ adw <- function(dd, xmin = NULL, xmax = NULL, ymin = NULL, ymax = NULL,
     st_as_sf(coords = c("lon", "lat"), crs = 4326)
   dg[, c("lon", "lat")] <- st_coordinates(dg)
   dg[, "value"] <- NA
+  # sea mask
+  sf_use_s2(FALSE) # Spherical geometry (s2) switched off
+  wld_land <- ne_countries(returnclass = "sf")
+  dg <- dg[wld_land,]  # land sea mask, removing the gridboxes in the sea
+  sf_use_s2(TRUE)  # Spherical geometry (s2) switched on
   ngrds <- nrow(dg)
   ds <- na.omit(dd) %>% st_as_sf(coords = c("lon", "lat"), crs = 4326)
   for (j in 1:ngrds) {
@@ -78,4 +85,3 @@ adw <- function(dd, xmin = NULL, xmax = NULL, ymin = NULL, ymax = NULL,
   dg <- dg[, c("lon", "lat", "value")]
   return(dg)
 }
-
