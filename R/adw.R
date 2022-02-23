@@ -37,27 +37,48 @@ adw <- function(dd, xmin = NULL, xmax = NULL, ymin = NULL, ymax = NULL,
   dg[, "value"] <- NA
   ngrds <- nrow(dg)
   ds <- na.omit(dd) %>% st_as_sf(coords = c("lon", "lat"), crs = 4326)
+  head(ds)
   for (j in 1:ngrds) {
     circle <- st_buffer(dg[j, ], dist = cdd) %>% st_geometry()
     dx <- ds[circle,]
     npts <- nrow(dx)  # station points numbers in the searh radius
-    if (npts >= 3) {
-      distance <- st_distance(dg[j,], dx) %>% as.numeric()
-      r <- exp(1)^(-distance/cdd)
+    if (npts > 10) {
+      dx[, "distance"] <- st_distance(dg[j,], dx) %>% as.numeric() # Units: [m]
+      dx <- dx[order(dx$distance), ]
+      dx <- dx[1:10, ]
+      r <- exp(1)^(-dx$distance/cdd)
       f <- r^m
       theta <- bearing(c(dg$lon[j], dg$lat[j]), st_coordinates(dx))
       theta <- theta * pi / 180
-      alpha <- rep(NA, npts)
-      for (k in 1:npts) {
+      alpha <- rep(NA, 10)
+      for (k in 1:10) {
         diffTheta <- theta[-k] - theta[k]
         alpha[k] <- sum(f[-k] * (1 - cos(diffTheta))) / sum(f[-k])
       }
       w <- f * (1 + alpha)
       dg[j, "value"] <- sum(dx$value * w) / sum(w)
+      dg <- as.data.frame(dg)
+      dg <- dg[, c("lon", "lat", "value")]
+      return(dg)
+    }
+    else if (npts >= 3 & npts <= 10) {
+      dx[, "distance"] <- st_distance(dg[j,], dx) %>% as.numeric() # Units: [m]
+      r <- exp(1)^(-dx$distance/cdd)
+      f <- r^m
+      theta <- bearing(c(dg$lon[j], dg$lat[j]), st_coordinates(dx))
+      theta <- theta * pi / 180
+      alpha <- rep(NA, 10)
+      for (k in 1:10) {
+        diffTheta <- theta[-k] - theta[k]
+        alpha[k] <- sum(f[-k] * (1 - cos(diffTheta))) / sum(f[-k])
+      }
+      w <- f * (1 + alpha)
+      dg[j, "value"] <- sum(dx$value * w) / sum(w)
+      dg <- as.data.frame(dg)
+      dg <- dg[, c("lon", "lat", "value")]
+      return(dg)
     }
   }
-  dg <- as.data.frame(dg)
-  dg <- dg[, c("lon", "lat", "value")]
-  return(dg)
 }
+
 
