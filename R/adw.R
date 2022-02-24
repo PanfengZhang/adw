@@ -1,4 +1,6 @@
-#' @title adw function, Angular distance weighting
+#' @title Angular Distance Weighting
+#' @description
+#' The irregularly-spaced data are gridded onto a regular latitude-longitude grid by weighting each station according to its distance and angle from the center of a search radius
 #' @param dd a input dataframe which contains column names of lon, lat, value
 #' @param xmin the minimum longitude of the rectangular mesh
 #' @param xmax the maximum longitude of the rectangular mesh
@@ -8,6 +10,15 @@
 #' @param cdd the correlation decay distance, unit: meter
 #' @param m is used to adjust the weighting function further
 #' @return a regular latitude-longitude grid dataframe
+#' @examples
+#' set.seed(123)
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
+#' head(dd)
+#' dg <- adw(dd, gridSize = 0.5, cdd = 1e5)
+#' # dg is the dataframe of grid (mesh)
+#' head(dg)
 #' @importFrom sf st_as_sf st_buffer st_coordinates st_distance st_geometry
 #' @importFrom magrittr %>%
 #' @importFrom geosphere bearing

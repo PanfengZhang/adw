@@ -1,10 +1,10 @@
 # Angular distance weighting (adw)
 
-Gridding the irregularly-spaced data onto a regular latitude-longitude
-grid by weighting each station according to its distance and angle from
-the center of a search radius
+The irregularly-spaced data are gridded onto a regular
+latitude-longitude grid by weighting each station according to its
+distance and angle from the center of a search radius
 
-# reference
+# Reference
 
 Caesar, J., L. Alexander, and R. Vose, 2006: Large-scale changes in
 observed daily maximum and minimum temperatures: Creation and analysis
@@ -27,33 +27,34 @@ The **development** version can be installed from GitHub
 
     ## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
 
-    ds <- read.csv("C:/documents/test/adw_test.csv")
-    ds$value <- runif(nrow(ds), min = -10, max = 10)
-    head(ds)
+    set.seed(123)
+    dd <- data.frame(lon = runif(100, min = 110, max = 117),
+                     lat = runif(100, min = 31, max = 37),
+                     value = runif(100, min = -10, max = 10))
+    head(dd)
 
-    ##       lon    lat      value
-    ## 1 113.061 32.928 -2.4436383
-    ## 2 114.310 33.653 -0.8338343
-    ## 3 111.267 33.506  8.4525327
-    ## 4 111.196 34.112  8.4404065
-    ## 5 114.337 33.435  1.5890665
-    ## 6 115.850 34.236 -5.6577436
+    ##        lon      lat      value
+    ## 1 112.0130 34.59993 -5.2254795
+    ## 2 115.5181 32.99694  9.2471787
+    ## 3 112.8628 33.93168  2.0273145
+    ## 4 116.1811 36.72684  0.3005945
+    ## 5 116.5833 33.89741 -1.9485332
+    ## 6 110.3189 36.34210  7.6049308
 
-    dg <- adw(ds, gridSize = 0.5, cdd = 100000, m = 4)
-    # dg is the grid (mesh) dataframe
+    dg <- adw(dd, gridSize = 0.5, cdd = 1e5, m = 4) %>% na.omit()
     head(dg)
 
-    ##       lon    lat      value
-    ## 1 110.397 31.453         NA
-    ## 2 110.397 31.953         NA
-    ## 3 110.397 32.453         NA
-    ## 4 110.397 32.953  1.0175670
-    ## 5 110.397 33.453 -0.6547725
-    ## 6 110.397 33.953  2.7219923
+    ##         lon     lat      value
+    ## 4  110.0044 32.5628  0.5288647
+    ## 5  110.0044 33.0628  4.5636123
+    ## 7  110.0044 34.0628 -4.6583732
+    ## 8  110.0044 34.5628 -5.1216463
+    ## 9  110.0044 35.0628 -6.1269176
+    ## 10 110.0044 35.5628 -6.1508663
 
-    # plot
     urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"
     cmap <- read_sf(urlmap) %>% st_cast('MULTILINESTRING')
+    library(ggplot2)
     ggplot() +
       geom_tile(data = dg, aes(x = lon, y = lat, fill = value)) +
       geom_sf(data = cmap) +
