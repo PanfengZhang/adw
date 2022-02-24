@@ -1,6 +1,6 @@
 #' @title Angular Distance Weighting for land
 #' @description
-#' The irregularly-spaced data are gridded onto a regular latitude-longitude grid by weighting each station according to its distance and angle from the center of a search radius
+#' The irregularly-spaced data are gridded onto regular latitude-longitude grids by weighting each station according to its distance and angle from the center of a search radius.
 #' @param dd a input dataframe which contains column names of lon, lat, value
 #' @param xmin the minimum longitude of the rectangular mesh
 #' @param xmax the maximum longitude of the rectangular mesh

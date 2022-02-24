@@ -4,9 +4,9 @@ Version: 0.9000
 Authors@R: 
     person("Panfeng", "Zhang", email = "zhangpanfeng@cug.edu.cn", role = c("aut", "cre"))
 Description: 
-    Gridding the irregularly-spaced data onto a regular latitude-longitude 
-    grid by weighting each station according to its distance and angle from
-    the center of a search radius.
+    The irregularly-spaced data are gridded onto regular latitude-longitude 
+    grids by weighting each station according to its distance and angle from the 
+    center of a search radius.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

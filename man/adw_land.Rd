@@ -36,7 +36,7 @@ adw_land(
 a regular latitude-longitude grid dataframe
 }
 \description{
-The irregularly-spaced data are gridded onto a regular latitude-longitude grid by weighting each station according to its distance and angle from the center of a search radius
+The irregularly-spaced data are gridded onto regular latitude-longitude grids by weighting each station according to its distance and angle from the center of a search radius.
 }
 \examples{
 set.seed(123)
