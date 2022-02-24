@@ -1,6 +1,6 @@
 # Angular distance weighting (adw)
 
-The irregularly-spaced data are gridded onto a regular
+The irregularly-spaced data are interpolated onto a regular
 latitude-longitude grid by weighting each station according to its
 distance and angle from the center of a search radius
 
@@ -8,8 +8,7 @@ distance and angle from the center of a search radius
 
 Caesar, J., L. Alexander, and R. Vose, 2006: Large-scale changes in
 observed daily maximum and minimum temperatures: Creation and analysis
-of a new gridded data set. J. Geophys. Res., 111, D05101,
-<https://doi.org/10.1029/2005JD006280>.
+of a new gridded data set. J. Geophys. Res., 111, D05101.
 
 ## Installation
 
@@ -28,29 +27,29 @@ The **development** version can be installed from GitHub
     ## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
 
     set.seed(123)
-    dd <- data.frame(lon = runif(100, min = 110, max = 117),
-                     lat = runif(100, min = 31, max = 37),
-                     value = runif(100, min = -10, max = 10))
+    dd <- data.frame(lon = runif(50, min = 110, max = 117),
+                     lat = runif(50, min = 31, max = 37),
+                     value = runif(50, min = -10, max = 10))
     head(dd)
 
     ##        lon      lat      value
-    ## 1 112.0130 34.59993 -5.2254795
-    ## 2 115.5181 32.99694  9.2471787
-    ## 3 112.8628 33.93168  2.0273145
-    ## 4 116.1811 36.72684  0.3005945
-    ## 5 116.5833 33.89741 -1.9485332
-    ## 6 110.3189 36.34210  7.6049308
+    ## 1 112.0130 31.27499  1.9997792
+    ## 2 115.5181 33.65320 -3.3435292
+    ## 3 112.8628 35.79355 -0.2277393
+    ## 4 116.1811 31.73140  9.0894765
+    ## 5 116.5833 34.36569 -0.3419521
+    ## 6 110.3189 32.23919  7.8070044
 
     dg <- adw(dd, gridSize = 0.5, cdd = 1e5, m = 4) %>% na.omit()
     head(dg)
 
-    ##         lon     lat      value
-    ## 4  110.0044 32.5628  0.5288647
-    ## 5  110.0044 33.0628  4.5636123
-    ## 7  110.0044 34.0628 -4.6583732
-    ## 8  110.0044 34.5628 -5.1216463
-    ## 9  110.0044 35.0628 -6.1269176
-    ## 10 110.0044 35.5628 -6.1508663
+    ##         lon      lat     value
+    ## 2  110.1723 31.50375 0.6793303
+    ## 3  110.1723 32.00375 3.9473573
+    ## 4  110.1723 32.50375 6.3224020
+    ## 13 110.6723 31.00375 0.7495071
+    ## 14 110.6723 31.50375 0.4942404
+    ## 15 110.6723 32.00375 0.1070331
 
     urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"
     cmap <- read_sf(urlmap) %>% st_cast('MULTILINESTRING')
