@@ -40,11 +40,11 @@ The irregularly-spaced data are interpolated onto regular latitude-longitude gri
 }
 \examples{
 set.seed(123)
-dd <- data.frame(lon = runif(50, min = 110, max = 117),
-                 lat = runif(50, min = 31, max = 37),
-                 value = runif(50, min = -10, max = 10))
+dd <- data.frame(lon = runif(100, min = 110, max = 117),
+                 lat = runif(100, min = 31, max = 37),
+                 value = runif(100, min = -10, max = 10))
 head(dd)
-dg <- adw(dd, gridSize = 0.5, cdd = 1e5)
+dg <- adw(dd, gridSize = 1, cdd = 1e5)
 # dg is the dataframe of grid (mesh)
 head(dg)
 }

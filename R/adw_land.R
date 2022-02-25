@@ -12,11 +12,11 @@
 #' @return a regular latitude-longitude grid dataframe
 #' @examples
 #' set.seed(123)
-#' dd <- data.frame(lon = runif(50, min = 110, max = 117),
-#'                  lat = runif(50, min = 31, max = 37),
-#'                  value = runif(50, min = -10, max = 10))
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
 #' head(dd)
-#' dg <- adw(dd, gridSize = 0.5, cdd = 1e5)
+#' dg <- adw(dd, gridSize = 1, cdd = 1e5)
 #' # dg is the dataframe of grid (mesh)
 #' head(dg)
 #' @importFrom sf st_as_sf st_buffer st_coordinates st_distance st_geometry sf_use_s2

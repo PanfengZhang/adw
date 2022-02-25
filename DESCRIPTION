@@ -1,6 +1,6 @@
 Package: adw
 Title: Angular Distance Weighting Interpolation
-Version: 0.9000
+Version: 0.1.0
 Authors@R: 
     person("Panfeng", "Zhang", email = "zhangpanfeng@cug.edu.cn", role = c("aut", "cre"))
 Description: 
