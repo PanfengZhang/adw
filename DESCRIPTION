@@ -4,9 +4,9 @@ Version: 0.1.0
 Authors@R: 
     person("Panfeng", "Zhang", email = "zhangpanfeng@cug.edu.cn", role = c("aut", "cre"))
 Description: 
-    The irregularly-spaced data are interpolated onto regular latitude-longitude 
+    The irregularly-spaced data are interpolated onto regular latitude-longitude
     grids by weighting each station according to its distance and angle from the 
-    center of a search radius.
+    center of a search radius. Caesar and Alexander (2006). <doi:10.1029/2005JD006280>.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

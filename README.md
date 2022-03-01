@@ -1,14 +1,15 @@
-# Angular distance weighting (adw)
+# Angular Distance Weighting Interpolation
 
-The irregularly-spaced data are interpolated onto a regular
-latitude-longitude grid by weighting each station according to its
-distance and angle from the center of a search radius
+The irregularly-spaced data are interpolated onto regular
+latitude-longitude grids by weighting each station according to its
+distance and angle from the center of a search radius.
 
 # Reference
 
 Caesar, J., L. Alexander, and R. Vose, 2006: Large-scale changes in
 observed daily maximum and minimum temperatures: Creation and analysis
 of a new gridded data set. J. Geophys. Res., 111, D05101.
+<doi:10.1029/2005JD006280>
 
 # Installation
 
@@ -53,7 +54,7 @@ The **development** version can be installed from GitHub
 
     urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json"
     cmap <- read_sf(urlmap) %>% st_cast('MULTILINESTRING')
-    library(ggplot2)
+
     ggplot() +
       geom_tile(data = dg, aes(x = lon, y = lat, fill = value)) +
       geom_sf(data = cmap) +
