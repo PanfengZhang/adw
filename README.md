@@ -1,22 +1,3 @@
----
-title: "adw"
-output: 
-  html_document:
-    highlight: textmate
-    keep_md: true
-    number_sections: no
-    theme: united
-    toc: yes
-    toc_float: yes
-vignette: >
-  %\VignetteIndexEntry{adw: Angular Distance Weighting Interpolation}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-
-
-
 ## Angular Distance Weighting Interpolation
 
 The irregularly-spaced data are interpolated onto regular latitude-longitude grids by weighting each station according to its distance and angle from the center of a search radius.
