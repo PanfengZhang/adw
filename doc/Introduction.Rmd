@@ -3,7 +3,7 @@ title: "adw"
 output: 
   html_document:
     highlight: textmate
-    keep_md: no
+    keep_md: true
     number_sections: no
     theme: united
     toc: yes
