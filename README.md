@@ -187,7 +187,7 @@ ggplot() +
 ### Usage 4
 
 
-The irregularly-spaced data of points are converted onto regular latitude-longitude grids by averaging all stations in grid-boxes. The parameter *extent* in the **point2grid** function is a extent *vector* of length 4 in the order [xmin, xmax, ymin, ymax], or a simple fearture object, or a SpatVect object.
+The irregularly-spaced data of points are converted onto regular latitude-longitude grids by averaging all stations in grid-boxes. The parameter *extent* in the **points2grid** function is a extent *vector* of length 4 in the order [xmin, xmax, ymin, ymax], or a simple fearture object, or a SpatVect object.
 
 
 ```r
