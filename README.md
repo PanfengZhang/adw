@@ -27,7 +27,7 @@ In addition to this, we also provide a simple way (Jones and Hulme, 1996) to gri
 
 Caesar, J., L. Alexander, and R. Vose, 2006: Large-scale changes in observed daily maximum and minimum temperatures: Creation and analysis of a new gridded data set. Journal of Geophysical Research, 111, <https://doi.org/10.1029/2005JD006280>.
 
-Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, <https://doi.org/10.1002/(SICI)1097-0088(199604)16:4<361::AID-JOC53>3.0.CO;2-F>.
+Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, <https://doi.org/10.1002/(SICI)1097-0088(199604)16:4&lt;361::AID-JOC53&gt;3.0.CO;2-F>.
 
 
 ## Installation
