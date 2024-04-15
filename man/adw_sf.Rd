@@ -2,7 +2,7 @@
 % Please edit documentation in R/adw.R
 \name{adw_sf}
 \alias{adw_sf}
-\title{Angular Distance Weighting Interpolation, adw_sf.}
+\title{Angular Distance Weighting Interpolation for the extent of 'simple feature'.}
 \usage{
 adw_sf(ds, extent, gridsize = 5, cdd = 1000, m = 4, nmin = 3, nmax = 10)
 }
@@ -42,8 +42,7 @@ dd <- data.frame(lon = runif(100, min = 110, max = 117),
                  lat = runif(100, min = 31, max = 37),
                  value = runif(100, min = -10, max = 10))
 head(dd)
-urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-hmap <- sf::read_sf(urlmap, as_tibble = FALSE) |> sf::st_make_valid() # return a 'sf' object.
+hmap <- cnmap::getMap(code = "410000") |> sf::st_make_valid() # return a 'sf' object.
 grd <- adw_sf(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 head(grd)
 }

@@ -2,17 +2,15 @@
 % Please edit documentation in R/adw.R
 \name{adw_vector}
 \alias{adw_vector}
-\title{Angular Distance Weighting Interpolation, adw_vector.}
+\title{Angular Distance Weighting Interpolation for the extent of vector.}
 \usage{
 adw_vector(ds, extent, gridsize = 5, cdd = 1000, m = 4, nmin = 3, nmax = 10)
 }
 \arguments{
 \item{ds}{a input dataframe which contains the column names of lon, lat, value.}
 
-\item{extent}{a extent numeric vector of length 4 in the order c(xmin, xmax, ymin, ymax),
-or a polygon object with class 'sf' (package 'sf'),  or a polygon object with
-class 'SpatVector' (package 'terra'). Assume that the coordinate reference
-system is WGS1984 (EPSG: 4326).}
+\item{extent}{a extent numeric vector (latitude and longitude) of length 4 in
+the order c(xmin, xmax, ymin, ymax).}
 
 \item{gridsize}{the grid size, i.e. the grid resolution. units: degree.}
 
@@ -45,7 +43,7 @@ dd <- data.frame(lon = runif(100, min = 110, max = 117),
                  value = runif(100, min = -10, max = 10))
 head(dd)
 # example
-grd <- adw(dd, extent = c(110, 117, 31, 37), gridsize = 0.5, cdd = 500)
+grd <- adw_vector(dd, extent = c(110, 117, 31, 37), gridsize = 0.5, cdd = 500)
 head(grd)
 }
 \references{

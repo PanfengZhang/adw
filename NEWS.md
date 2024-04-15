@@ -1,9 +1,16 @@
+# adw 0.4.0
+-   add functions of points2grid, points2grid_vector, points2grid_sf, points2grid_sv for gridding
+-   add functions of awa for area weighted average
+-   function of adw_terra was changed to adw_sv
+-   some examples were modified.
+
+
 # adw 0.3.1
--   The help files for funchtions 'adw_vector', 'adw_sf' and 'adw_terra' are changed, and some unnecessary content has been removed. The unit of parameter 'extent' was converted from meter to kilometer since the version 0.3.1.
+-   The help files for funchtions 'adw_vector', 'adw_sf' and 'adw_terra' are changed, and some unnecessary content has been removed.
 
 # adw 0.3.0
--   The adw interpolation function is rewritten, and the parameter 'extent' can be a class of 'sf', 'SpatVector', or 'vector'. The calculation speed will be several times faster than before.
--   deleter parameter of 'maskON'.
+-   The adw interpolation function was rewritten, and the parameter 'extent' can be a class of 'sf', 'SpatVector', or 'vector'. The calculation speed will be several times faster than before.
+-   delete parameter of 'maskON'. The unit of parameter 'cdd' was converted from meter to kilometer since the version 0.3.1.
 
 # adw 0.2.1
 

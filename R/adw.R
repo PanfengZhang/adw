@@ -53,16 +53,14 @@ weightCal <- function(stnDistances, corDecayDistance, m,
   return(w)
 }
 
-#' @title Angular Distance Weighting Interpolation, adw_vector.
+#' @title Angular Distance Weighting Interpolation for the extent of vector.
 #' @description
 #' The irregularly-spaced data are interpolated onto regular latitude-longitude 
 #' grids by weighting each station according to its distance and angle from the 
 #' center of a search radius.
 #' @param ds a input dataframe which contains the column names of lon, lat, value.
-#' @param extent a extent numeric vector of length 4 in the order c(xmin, xmax, ymin, ymax),
-#' or a polygon object with class 'sf' (package 'sf'),  or a polygon object with
-#' class 'SpatVector' (package 'terra'). Assume that the coordinate reference 
-#' system is WGS1984 (EPSG: 4326).
+#' @param extent a extent numeric vector (latitude and longitude) of length 4 in 
+#' the order c(xmin, xmax, ymin, ymax).
 #' @param gridsize the grid size, i.e. the grid resolution. units: degree.
 #' @param cdd correlation decay distance, i.e. the maximum search radius. 
 #' unit: kilometer. default value: 1000km.
@@ -83,7 +81,7 @@ weightCal <- function(stnDistances, corDecayDistance, m,
 #'                  value = runif(100, min = -10, max = 10))
 #' head(dd)
 #' # example
-#' grd <- adw(dd, extent = c(110, 117, 31, 37), gridsize = 0.5, cdd = 500)
+#' grd <- adw_vector(dd, extent = c(110, 117, 31, 37), gridsize = 0.5, cdd = 500)
 #' head(grd)
 #' @export
 adw_vector <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, 
@@ -118,7 +116,7 @@ adw_vector <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3,
   return(dg)
 }
 
-#' @title Angular Distance Weighting Interpolation, adw_sf.
+#' @title Angular Distance Weighting Interpolation for the extent of 'simple feature'.
 #' @description
 #' The irregularly-spaced data are interpolated onto regular latitude-longitude 
 #' grids by weighting each station according to its distance and angle from the 
@@ -145,8 +143,7 @@ adw_vector <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3,
 #'                  lat = runif(100, min = 31, max = 37),
 #'                  value = runif(100, min = -10, max = 10))
 #' head(dd)
-#' urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-#' hmap <- sf::read_sf(urlmap, as_tibble = FALSE) |> sf::st_make_valid() # return a 'sf' object.
+#' hmap <- cnmap::getMap(code = "410000") |> sf::st_make_valid() # return a 'sf' object.
 #' grd <- adw_sf(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 #' head(grd)
 #' @importFrom methods is
@@ -189,7 +186,7 @@ adw_sf <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax = 
   return(dg)
 }
 
-#' @title Angular Distance Weighting Interpolation, adw_terra.
+#' @title Angular Distance Weighting Interpolation for the extent of 'SpatVector'.
 #' @description
 #' The irregularly-spaced data are interpolated onto regular latitude-longitude 
 #' grids by weighting each station according to its distance and angle from the 
@@ -217,14 +214,13 @@ adw_sf <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax = 
 #'                  value = runif(100, min = -10, max = 10))
 #' head(dd)
 #' # example
-#' urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-#' hmap <- terra::vect(urlmap) # return a 'SpatVector' object.
-#' grd <- adw(dd, extent = hmap, gridsize = 0.5, cdd = 500)
+#' hmap <- cnmap::getMap(code = "410000", returnClass = "sv") # return a 'SpatVector' object.
+#' grd <- adw_sv(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 #' head(grd)
 #' @importFrom terra ext mask
 #' @importFrom methods is
 #' @export
-adw_terra <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax = 10) {
+adw_sv <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax = 10) {
   #require(terra)
   bbox <- terra::ext(extent)
   xmin = bbox[1]
@@ -266,10 +262,10 @@ adw_terra <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax
 #' grids by weighting each station according to its distance and angle from the 
 #' center of a search radius.
 #' @param ds a input dataframe which contains the column names of lon, lat, value.
-#' @param extent a extent numeric vector of length 4 in the order c(xmin, xmax, ymin, ymax),
-#' or a polygon object with class 'sf' (package 'sf'),  or a polygon object with
-#' class 'SpatVector' (package 'terra'). Assume that the coordinate reference 
-#' system is WGS1984 (EPSG: 4326).
+#' @param extent a extent numeric vector (latitude and longitude) of length 4 in 
+#' the order c(xmin, xmax, ymin, ymax), or a polygon object with class 'sf' 
+#' (package 'sf'),  or a polygon object with class 'SpatVector' (package 'terra'). 
+#' Assume that the coordinate reference system is WGS1984 (EPSG: 4326).
 #' @param gridsize the grid size, i.e. the grid resolution. units: degree.
 #' @param cdd correlation decay distance, i.e. the maximum search radius. 
 #' unit: kilometer. default value: 1000km.
@@ -295,14 +291,12 @@ adw_terra <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax
 #' head(grd)
 #' 
 #' # example 2
-#' urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-#' hmap <- sf::read_sf(urlmap, as_tibble = FALSE) |> sf::st_make_valid() # return a 'sf' object.
-#' grd <- adw_sf(dd, extent = hmap, gridsize = 0.5, cdd = 500)
+#' hmap <- cnmap::getMap(code = "410000") |> sf::st_make_valid() # return a 'sf' object.
+#' grd <- adw(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 #' head(grd)
 #' 
 #' # example 3
-#' urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-#' hmap <- terra::vect(urlmap) # return a 'SpatVector' object.
+#' hmap <- cnmap::getMap(code = "410000", returnClass = "sv") # return a 'SpatVector' object.
 #' grd <- adw(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 #' head(grd)
 #' @importFrom methods is
@@ -313,7 +307,225 @@ adw <- function(ds, extent, gridsize = 5, cdd = 1e3, m = 4, nmin = 3, nmax = 10)
   } else if (methods::is(extent, "sf")) {
     grd <- adw_sf(ds, extent, gridsize, cdd, m, nmin, nmax)
   } else if (methods::is(extent, "SpatVector")) {
-    grd <- adw_terra(ds, extent, gridsize, cdd, m, nmin, nmax)
+    grd <- adw_sv(ds, extent, gridsize, cdd, m, nmin, nmax)
   }
   return(grd)
+}
+
+
+#' @title Points were to converted grids using a local gridding method.
+#' @description The irregularly-spaced data of points are converted onto regular
+#' latitude-longitude grids by averaging all stations in grid-boxes.
+#' @param dd a input dataframe which contains the column names of lon, lat, value.
+#' @param extent a extent numeric vector (latitude and longitude) of length 4 in 
+#' the order c(xmin, xmax, ymin, ymax).
+#' @param gridsize the grid size, i.e. the grid resolution. units: degree.
+#' @return a regular latitude-longitude dataframe grid (grid values).
+#' @references Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, https://doi.org/10.1002/(SICI)1097-0088(199604)16:4<361::AID-JOC53>3.0.CO;2-F.
+#' @examples
+#' set.seed(2)
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
+#' head(dd)
+#' # example
+#' grd <- points2grid(dd, extent = c(110, 117, 31, 37), gridsize = 0.5)
+#' head(grd)
+#' @export
+points2grid_vector <- function(dd, extent, gridsize = 5) {
+  xmin = extent[1]
+  xmax = extent[2]
+  ymin = extent[3]
+  ymax = extent[4]
+  
+  dg <- expand.grid(lon = seq(xmin+gridsize/2, xmax, gridsize), 
+                    lat = seq(ymin+gridsize/2, ymax, gridsize))
+  dg[, "value"] <- NA
+  ngrd <- nrow(dg)
+  
+  k <- 1
+  for (i in 1:ngrd) {
+    griddata <- dd[dd$lon >= dg$lon[k] - gridsize/2 & dd$lon < dg$lon[k] + gridsize/2 &
+                   dd$lat >= dg$lat[k] - gridsize/2 & dd$lat < dg$lat[k] + gridsize/2, ]
+    dg[k, "value"] <- mean(griddata$value, na.rm = TRUE)
+    k <- k + 1
+  }
+
+  return(dg)
+}
+
+
+#' @title Points were to converted grids using a local gridding method.
+#' @description the irregularly-spaced data of points are converted onto regular
+#' latitude-longitude grids by averaging all stations in grid-boxes.
+#' @param dd a input dataframe which contains the column names of lon, lat, value.
+#' @param extent a polygon object of simple feature (come from package 'sf'). 
+#' Assume that the coordinate reference system is WGS1984 (EPSG: 4326).
+#' @param gridsize the grid size, i.e. the grid resolution. units: degree.
+#' @return a regular latitude-longitude dataframe grid (grid values).
+#' @references Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, https://doi.org/10.1002/(SICI)1097-0088(199604)16:4<361::AID-JOC53>3.0.CO;2-F.
+#' @examples
+#' set.seed(2)
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
+#' head(dd)
+#' # example
+#' hmap <- cnmap::getMap(code = 410000) |> sf::st_make_valid()
+#' grd <- points2grid_sf(dd, extent = hmap, gridsize = 0.5)
+#' head(grd)
+#' @importFrom methods is
+#' @importFrom sf st_bbox st_as_sf
+#' @importFrom cnmap getMap
+#' @export
+points2grid_sf <- function(dd, extent, gridsize = 5) {
+  bbox <- st_bbox(extent)
+  xmin = bbox['xmin']
+  xmax = bbox['xmax']
+  ymin = bbox['ymin']
+  ymax = bbox['ymax']
+  
+  dg <- expand.grid(lon = seq(xmin+gridsize/2, xmax, gridsize), 
+                    lat = seq(ymin+gridsize/2, ymax, gridsize)) |>
+    sf::st_as_sf(coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  dg <- dg[extent, ]
+  dg[, "value"] <- NA
+  dg <- as.data.frame(dg)
+  dg <- dg[, c("lon", "lat", "value")]
+  
+  ngrd <- nrow(dg)
+  
+  k <- 1
+  for (i in 1:ngrd) {
+    griddata <- dd[dd$lon >= dg$lon[k] - gridsize/2 & dd$lon < dg$lon[k] + gridsize/2 &
+                     dd$lat >= dg$lat[k] - gridsize/2 & dd$lat < dg$lat[k] + gridsize/2, ]
+    dg[k, "value"] <- mean(griddata$value, na.rm = TRUE)
+    k <- k + 1
+  }
+  
+  return(dg)
+}
+
+
+#' @title Points were to converted grids using a local gridding method.
+#' @description the irregularly-spaced data of points are converted onto regular
+#' latitude-longitude grids by averaging all stations in grid-boxes.
+#' @param dd a input dataframe which contains the column names of lon, lat, value.
+#' @param extent a polygon object of SpatVector (from package 'terra'). 
+#' Assume that the coordinate reference system is WGS1984 (EPSG: 4326).
+#' @param gridsize the grid size, i.e. the grid resolution. units: degree.
+#' @return a regular latitude-longitude dataframe grid (grid values).
+#' @references Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, https://doi.org/10.1002/(SICI)1097-0088(199604)16:4<361::AID-JOC53>3.0.CO;2-F.
+#' @examples
+#' set.seed(2)
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
+#' head(dd)
+#' # example
+#' hmap <- cnmap::getMap(code = 410000, returnClass = "sv")
+#' grd <- points2grid_sv(dd, extent = hmap, gridsize = 0.5)
+#' head(grd)
+#' @importFrom terra ext mask
+#' @importFrom methods is
+#' @importFrom cnmap getMap
+#' @export
+points2grid_sv <- function(dd, extent, gridsize = 5) {
+  bbox <- terra::ext(extent)
+  xmin = bbox[1]
+  xmax = bbox[2]
+  ymin = bbox[3]
+  ymax = bbox[4]
+  dg <- expand.grid(lon = seq(xmin+gridsize/2, xmax, gridsize), 
+                    lat = seq(ymin+gridsize/2, ymax, gridsize)) |>
+    terra::vect(crs = "+proj=longlat +datum=WGS84", keepgeom = TRUE)
+  dg <- terra::mask(dg, extent)
+  dg[, "value"] <- NA
+  dg <- as.data.frame(dg)
+  
+  ngrd <- nrow(dg)
+  
+  k <- 1
+  for (i in 1:ngrd) {
+    griddata <- dd[dd$lon >= dg$lon[k] - gridsize/2 & dd$lon < dg$lon[k] + gridsize/2 &
+                     dd$lat >= dg$lat[k] - gridsize/2 & dd$lat < dg$lat[k] + gridsize/2, ]
+    dg[k, "value"] <- mean(griddata$value, na.rm = TRUE)
+    k <- k + 1
+  }
+  
+  return(dg)
+}
+
+
+#' @title Points were to converted grids using a local gridding method.
+#' @description the irregularly-spaced data of points are converted onto regular
+#' latitude-longitude grids by averaging all stations in grid-boxes.
+#' @param dd a input dataframe which contains the column names of lon, lat, value.
+#' @param extent a extent numeric vector (latitude and longitude) of length 4 in 
+#' the order c(xmin, xmax, ymin, ymax), or a polygon object with class 'sf' 
+#' (package 'sf'),  or a polygon object with class 'SpatVector' (package 'terra'). 
+#' Assume that the coordinate reference system is WGS1984 (EPSG: 4326).
+#' @param gridsize the grid size, i.e. the grid resolution. units: degree.
+#' @return a regular latitude-longitude dataframe grid (grid values).
+#' @references Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, https://doi.org/10.1002/(SICI)1097-0088(199604)16:4<361::AID-JOC53>3.0.CO;2-F.
+#' @examples
+#' set.seed(2)
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
+#' head(dd)
+#' 
+#' # example 1
+#' grd <- points2grid(dd, extent = c(110, 117, 31, 37), gridsize = 0.5)
+#' head(grd)
+#' 
+#' # example 2
+#' hmap <- cnmap::getMap(code = "410000", return = "sf") |> sf::st_make_valid() # return a 'sf' object.
+#' grd <- points2grid(dd, extent = hmap, gridsize = 0.5)
+#' head(grd)
+#' 
+#' # example 3
+#' hmap <- cnmap::getMap(code = "410000", return = "sv") # return a 'SpatVector' object.
+#' grd <- points2grid(dd, extent = hmap, gridsize = 0.5)
+#' head(grd)
+#' @importFrom methods is
+#' @importFrom cnmap getMap
+#' @export
+points2grid <- function(dd, extent, gridsize = 0.5) {
+  if (methods::is(extent, "vector")) {
+    grd <- points2grid_vector(dd, extent, gridsize)
+  } else if (methods::is(extent, "sf")) {
+    grd <- points2grid_sf(dd, extent, gridsize)
+  } else if (methods::is(extent, "SpatVector")) {
+    grd <- points2grid_sv(dd, extent, gridsize)
+  }
+  return(grd)
+}
+
+
+#' @title Area weighted average.
+#' @description The large area, or hemispheric, or global averages can be calculated
+#' dependent on the area represented by the grid-point or grid-box. The weight of 
+#' latitude-longitude grid-points-boxes should be the cosine of the latitude of 
+#' the ith grid-point-box.
+#' @param dat a numeric vector of grid data. The missing values are not allowed.
+#' @param lat a latitude numeric vector of grid data. The cosine of latitude is 
+#' used as the weight coefficient.
+#' @return a scalar value, i.e the value of area weighted average.
+#' @references Jones, P. D., and M. Hulme, 1996: Calculating regional climatic time series for temperature and precipitation: Methods and illustrations. Int. J. Climatol., 16, 361–377, https://doi.org/10.1002/(SICI)1097-0088(199604)16:4<361::AID-JOC53>3.0.CO;2-F.
+#' @examples
+#' set.seed(2)
+#' dd <- data.frame(lon = runif(100, min = 110, max = 117),
+#'                  lat = runif(100, min = 31, max = 37),
+#'                  value = runif(100, min = -10, max = 10))
+#' grd <- points2grid(dd, extent = c(110, 117, 31, 37), gridsize = 0.5)
+#' grd <- na.omit(grd)
+#' awa(grd$value, grd$lat) # area weighted average
+#' @export
+awa <- function(dat, lat) {
+  if (sum(is.na(dat)) > 0) stop("missing values are not allowed")
+  lat_cos <- cos(lat*pi/180)
+  weight <- lat_cos / sum(lat_cos)
+  awa <- sum(dat * weight)  # area_weight_average
+  return(awa)
 }

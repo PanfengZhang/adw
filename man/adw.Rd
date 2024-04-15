@@ -9,10 +9,10 @@ adw(ds, extent, gridsize = 5, cdd = 1000, m = 4, nmin = 3, nmax = 10)
 \arguments{
 \item{ds}{a input dataframe which contains the column names of lon, lat, value.}
 
-\item{extent}{a extent numeric vector of length 4 in the order c(xmin, xmax, ymin, ymax),
-or a polygon object with class 'sf' (package 'sf'),  or a polygon object with
-class 'SpatVector' (package 'terra'). Assume that the coordinate reference
-system is WGS1984 (EPSG: 4326).}
+\item{extent}{a extent numeric vector (latitude and longitude) of length 4 in
+the order c(xmin, xmax, ymin, ymax), or a polygon object with class 'sf'
+(package 'sf'),  or a polygon object with class 'SpatVector' (package 'terra').
+Assume that the coordinate reference system is WGS1984 (EPSG: 4326).}
 
 \item{gridsize}{the grid size, i.e. the grid resolution. units: degree.}
 
@@ -50,14 +50,12 @@ grd <- adw(dd, extent = c(110, 117, 31, 37), gridsize = 0.5, cdd = 500)
 head(grd)
 
 # example 2
-urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-hmap <- sf::read_sf(urlmap, as_tibble = FALSE) |> sf::st_make_valid() # return a 'sf' object.
-grd <- adw_sf(dd, extent = hmap, gridsize = 0.5, cdd = 500)
+hmap <- cnmap::getMap(code = "410000") |> sf::st_make_valid() # return a 'sf' object.
+grd <- adw(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 head(grd)
 
 # example 3
-urlmap <- "https://geo.datav.aliyun.com/areas_v3/bound/410000.json"
-hmap <- terra::vect(urlmap) # return a 'SpatVector' object.
+hmap <- cnmap::getMap(code = "410000", returnClass = "sv") # return a 'SpatVector' object.
 grd <- adw(dd, extent = hmap, gridsize = 0.5, cdd = 500)
 head(grd)
 }

@@ -1,11 +1,11 @@
 Package: adw
 Title: Angular Distance Weighting Interpolation
-Version: 0.3.1
+Version: 0.4.0
 Authors@R: 
     c(person(given = "Panfeng", 
              family = "Zhang", 
              role = c("aut", "cre"),
-             email = "zhangpanfeng@cug.edu.cn", 
+             email = "zhangpanfeng@jlnu.edu.cn", 
              comment = c(ORCID = "0000-0001-6084-9231")),
       person(given = "Guoyu",
              family = "Ren",
@@ -16,19 +16,19 @@ Authors@R:
       person(given = "Chenchen",
              family = "Ren",
              role = "ctb"),
-      person(given = "Zhengxiang",
+      person(given = "Xiang",
              family = "Zheng",
              role = "ctb"))
-Maintainer: Panfeng Zhang <zhangpanfeng@cug.edu.cn>
-Description: The irregularly-spaced data are interpolated onto regular latitude-longitude grids by weighting each station according to its distance and angle from the center of a search radius.
+Maintainer: Panfeng Zhang <zhangpanfeng@jlnu.edu.cn>
+Description: The irregularly-spaced data are interpolated onto regular latitude-longitude grids by weighting each station according to its distance and angle from the center of a search radius. In addition to this, a simple method which gridding the irregularly-spaced data points onto regular latitude-longitude grids by averaging all points in grid-boxes was also provided.
 URL: https://github.com/PanfengZhang/adw
 BugReports: https://github.com/PanfengZhang/adw/issues
 Depends: R (>= 4.2.0)
-Imports: methods, sf, terra
+Imports: methods, sf, terra, cnmap
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 LazyData: true
 Suggests: 
     knitr,
